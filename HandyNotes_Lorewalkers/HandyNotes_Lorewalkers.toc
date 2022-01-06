@@ -1,0 +1,16 @@
+## Interface: 50400
+## Title: HandyNotes_Lorewalkers
+## Notes: Where the lore is at
+## Author: Kemayo
+## Version: 1
+## DefaultState: enabled
+## X-Category: Map
+## X-eMail: kemayo @ gmail DOT com
+## SavedVariables: HandyNotes_LorewalkersDB
+## RequiredDeps: HandyNotes
+## X-Curse-Packaged-Version: v5
+## X-Curse-Project-Name: HandyNotes_Lorewalkers
+## X-Curse-Project-ID: handynotes_lorewalkers
+## X-Curse-Repository-ID: wow/handynotes_lorewalkers/mainline
+
+Lore.lua
