@@ -1,0 +1,16 @@
+## Interface: 50400
+## Title: HandyNotes_LostAndFound
+## Notes: Where the Lost and Found objects are
+## Author: Kemayo
+## Version: 1
+## DefaultState: enabled
+## X-Category: Map
+## X-eMail: kemayo @ gmail DOT com
+## SavedVariables: HandyNotes_LostAndFoundDB
+## RequiredDeps: HandyNotes
+## X-Curse-Packaged-Version: v8
+## X-Curse-Project-Name: HandyNotes_LostAndFound
+## X-Curse-Project-ID: handynotes_lostandfound
+## X-Curse-Repository-ID: wow/handynotes_lostandfound/mainline
+
+Lost.lua

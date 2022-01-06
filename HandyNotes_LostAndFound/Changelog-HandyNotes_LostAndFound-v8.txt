@@ -1,0 +1,14 @@
+tag v8
+d41a3366b322ffc33f08fc8e83480799053e9d5a
+David Lynch <kemayo@gmail.com>
+2013-09-10 11:31:36 -0500
+
+Tagging v8
+
+
+--------------------
+
+David Lynch:
+	- TOC
+	- Better location for Hozen Treasure Cache
+	- Bump TOC
