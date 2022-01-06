@@ -1,0 +1,13 @@
+## Interface: 50400
+## Title: HandyNotes_DungeonLocations
+## Version: 1.00
+## Notes: Shows location of dungeon and raid entrances
+## Author: Bartruby of Cairne
+## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_DungeonLocationsDB
+## X-Curse-Packaged-Version: 1.00
+## X-Curse-Project-Name: HandyNotes_DungeonLocations
+## X-Curse-Project-ID: handynotes_dungeonlocations
+## X-Curse-Repository-ID: wow/handynotes_dungeonlocations/mainline
+
+HandyNotes_DungeonLocations.lua

@@ -1,0 +1,31 @@
+------------------------------------------------------------------------
+r4 | caliaha | 2016-10-12 05:35:25 +0000 (Wed, 12 Oct 2016) | 1 line
+Changed paths:
+   A /tags/1.00 (from /trunk:3)
+
+Added most dungeon id's and locations
+------------------------------------------------------------------------
+r3 | caliaha | 2016-10-12 05:34:21 +0000 (Wed, 12 Oct 2016) | 1 line
+Changed paths:
+   M /trunk/HandyNotes_DungeonLocations.lua
+
+Added most dungeon id's and locations
+------------------------------------------------------------------------
+r2 | caliaha | 2016-10-11 23:38:34 +0000 (Tue, 11 Oct 2016) | 1 line
+Changed paths:
+   A /trunk/HandyNotes_DungeonLocations.lua
+   A /trunk/HandyNotes_DungeonLocations.toc
+   A /trunk/dungeon.tga
+   A /trunk/merged.tga
+   A /trunk/raid.tga
+
+Initial commit
+------------------------------------------------------------------------
+r1 | svn | 2016-10-11 21:04:03 +0000 (Tue, 11 Oct 2016) | 1 line
+Changed paths:
+   A /branches
+   A /tags
+   A /trunk
+
+handynotes_dungeonlocations/mainline: Initial Import
+------------------------------------------------------------------------
