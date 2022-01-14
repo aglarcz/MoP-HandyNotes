@@ -45,6 +45,9 @@ nodes["Barrens"] = {
 nodes["BurningSteppes"] = {
  [20303260] = { 66, "Merged", "Blackrock Dungeons, MC and BWL" },
 }
+nodes["DeadwindPass"] = {
+ [46907470] = { 745, "Raid", "Karazhan" }, -- Karazhan
+}
 nodes["Desolace"] = {
  [29106250] = { 232, "Dungeon", "Maraudon" }, -- Maraudon 29106250 Door at beginning
 }
