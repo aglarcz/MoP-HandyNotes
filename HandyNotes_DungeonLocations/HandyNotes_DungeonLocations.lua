@@ -1,7 +1,7 @@
 --[[
 Things to do
- Implement continent showing toggle, option is there but does nothing
  Lump close dungeon/raids into one, (nexus/oculus/eoe)
+ Maybe implement lockout info on tooltip (Don't know if I want too, better addons for tracking it exist)
 ]]--
 
 local DEBUG = false
@@ -14,11 +14,22 @@ local iconDungeon = "Interface\\Addons\\HandyNotes_DungeonLocations\\dungeon.tga
 local iconRaid = "Interface\\Addons\\HandyNotes_DungeonLocations\\raid.tga"
 local iconMerged = "Interface\\Addons\\HandyNotes_DungeonLocations\\merged.tga"
 
+local db
 local mapToContinent = { }
 local nodes = { }
+local minimap = { } -- For nodes that need precise minimap locations but would look wrong on zone or continent maps
+--local lockouts = { }
+
+local MERGED_DUNGEONS = 5 -- Where extra dungeon/raids ids start for merging
+
+if (DEBUG) then
+ HNDL_NODES = nodes
+ HNDL_MINIMAP = minimap
+ --HNDL_LOCKOUTS = lockouts
+end
 
 local internalNodes = {  -- List of zones to be excluded from continent map
- ["BlackrockMountain"] = false,
+ ["BlackrockMountain"] = true,
  ["CavernsofTime"] = true,
  ["DeadminesWestfall"] = true,
  ["Dalaran"] = true,
@@ -28,7 +39,7 @@ local internalNodes = {  -- List of zones to be excluded from continent map
  ["WailingCavernsBarrens"] = true,
 }
 
--- [COORD] = { Dungeonname/ID, Type(Dungeon/Raid/Merged), hideOnContinent(Bool), other dungeons }
+-- [COORD] = { Dungeonname/ID, Type(Dungeon/Raid/Merged), hideOnContinent(Bool), nil placeholder for id later, other dungeons }
 -- VANILLA
 nodes["AhnQirajTheFallenKingdom"] = {
  [43808980] = { 71533, "Dungeon", "Andre" }, -- Sleeping Dragon
@@ -43,7 +54,7 @@ nodes["Barrens"] = {
 [42106660] = { 240, "Dungeon", "Wailing Caverns" }, -- Wailing Caverns
 }
 nodes["BurningSteppes"] = {
- [20303260] = { 66, "Merged", "Blackrock Dungeons, MC and BWL" },
+ [20303260] = { 66, "Merged", "Blackrock Dungeons, MC and BWL/BWD" },
 }
 nodes["DeadwindPass"] = {
  [46907470] = { 745, "Raid", "Karazhan" }, -- Karazhan
@@ -67,7 +78,7 @@ nodes["Orgrimmar"] = {
  [52405800] = { 226, "Dungeon", "Ragefire Chasm" }, -- Ragefire Chasm Cleft of Shadow 70104880
 }
 nodes["SearingGorge"] = {
- [41708580] = { 66, "Merged", "Blackrock Dungeons, MC and BWL" },
+ [41708580] = { 66, "Merged", "Blackrock Dungeons, MC and BWL/BWD" },
 }
 nodes["Silithus"] = {
  [36208420] = { 743, "Raid", "Ruins of Ahn'Qiraj" }, -- Ruins of Ahn'Qiraj
@@ -76,14 +87,23 @@ nodes["Silithus"] = {
 nodes["Silverpine"] = {
  [44806780] = { 64, "Dungeon", "Shadowfang Keep" }, -- Shadowfang Keep
 }
+nodes["SouthernBarrens"] = {
+ [40909450] = { 234, "Dungeon", "Razorfen Kraul" }, -- Razorfen Kraul
+}
 nodes["StormwindCity"] = {
  [50406640] = { 238, "Dungeon", "The Stockade" }, -- The Stockade
 }
 nodes["StranglethornJungle"] = {
  [72203290] = { 76, "Dungeon", "Zul'Gurub" }, -- Zul'Gurub
 }
+nodes["StranglethornVale"] = { -- Jungle and Cape are subzones of this zone (weird)
+ [63402180] = { 76, "Dungeon", "Zul'Gurub" }, -- Zul'Gurub
+}
 nodes["SwampOfSorrows"] = {
  [69505250] = { 237, "Dungeon", "The Temple of Atal'hakkar" }, -- The Temple of Atal'hakkar
+}
+nodes["ThousandNeedles"] = {
+ [47402360] = { 233, "Dungeon", "Razorfen Downs" }, -- Razorfen Downs
 }
 nodes["Tanaris"] = {
  [65604870] = { 279, "Merged", "Caverns of Time Dungeons" },
@@ -125,8 +145,9 @@ nodes["DeadminesWestfall"] = {
  [25505090] = { 63, "Dungeon", "Deadmines" }, -- Deadmines
 }
 nodes["MaraudonOutside"] = {
- [52102390] = { 232, "Dungeon", "Maraudon" }, -- Maraudon 30205450 World
- [78605600] = { 232, "Dungeon", "Maraudon" }, -- Maraudon 36006430
+ [52102390] = { 232, "Dungeon", "Purple Entrance" }, -- Maraudon 30205450 
+ [78605600] = { 232, "Dungeon", "Orange Entrance" }, -- Maraudon 36006430
+ [44307680] = { 232, "Dungeon", "Earth Song Falls Entrance" },  -- Maraudon
 }
 nodes["NewTinkertownStart"] = {
  [31703450] = { 231, "Dungeon", "Gnomeregan" }, -- Gnomeregan
@@ -192,7 +213,7 @@ nodes["Dragonblight"] = {
  [60005690] = { 755, "Raid", "The Obsidian Sanctum" }, -- The Obsidian Sanctum
 }
 nodes["HowlingFjord"] = {
- [57304680] = { 285, "Dungeon", "Utgarde Keep" }, -- Utgarde Keep
+ [58005000] = { 285, "Dungeon", "Utgarde Keep" }, -- Utgarde Keep
  [57204660] = { 286, "Dungeon", "Utgarde Pinnacle" }, -- Utgarde Pinnacle
 }
 nodes["IcecrownGlacier"] = {
@@ -227,6 +248,9 @@ nodes["Deepholm"] = {
 nodes["Hyjal"] = {
  [47307810] = { 78, "Raid", "Firelands" }, -- Firelands
 }
+nodes["TolBarad"] = {
+ [46104790] = { 75, "Raid", "Baradin Hold" }, -- Baradin Hold
+}
 nodes["TwilightHighlands"] = {
  [19105390] = { 71, "Dungeon", "Grim Batol" }, -- Grim Batol World 53105610
  [34007800] = { 72, "Raid", "The Bastion of Twilight" }, -- The Bastion of Twilight World 55005920
@@ -236,6 +260,12 @@ nodes["Uldum"] = {
  [60506430] = { 69, "Dungeon", "Lost City of Tol'Vir" }, -- Lost City of Tol'Vir
  [69105290] = { 70, "Dungeon", "Halls of Origination" }, -- Halls of Origination
  [38308060] = { 74, "Raid", "Throne of the Four Winds" }, -- Throne of the Four Winds
+}
+nodes["Vashjir"] = {
+ [48204040] =  { 65, "Dungeon", "Throne of Tides" }, -- Throne of Tides
+}
+nodes["VashjirDepths"] = {
+ [69302550] = { 65, "Dungeon", "Throne of Tides" }, -- Throne of Tides
 }
 -- PANDARIA
 nodes["DreadWastes"] = {
@@ -266,9 +296,13 @@ nodes["ValleyoftheFourWinds"] = {
  [36106920] = { 302, "Dungeon", "Stormstout Brewery" }, -- Stormstout Brewery
 }
 
+-- PANDARIA Continent, For things that should be shown or merged only at the continent level
+nodes["Pandaria"] = {
+ [23100860] = { 362, "Raid", "Throne of Thunder" }, -- Throne of Thunder, looked weird so manually placed on continent
+}
+
 local continents = {
 	["Azeroth"] = true, -- Eastern Kingdoms
-	["Draenor"] = false,
 	["Expansion01"] = true, -- Outland
 	["Kalimdor"] = true,
 	["Northrend"] = true,
@@ -278,7 +312,18 @@ local continents = {
 
 local pluginHandler = { }
 function pluginHandler:OnEnter(mapFile, coord) -- Copied from handynotes
-    if (not nodes[mapFile][coord]) then return end	
+ --GameTooltip:AddLine("text" [, r [, g [, b [, wrap]]]])
+ -- Maybe check for situations where minimap and node coord overlaps
+    local nodeData = nil
+    --if (not nodes[mapFile][coord]) then return end
+	if (minimap[mapFile] and minimap[mapFile][coord]) then
+	 nodeData = minimap[mapFile][coord]
+	end
+	if (nodes[mapFile] and nodes[mapFile][coord]) then
+	 nodeData = nodes[mapFile][coord]
+	end
+	if (not nodeData) then return end
+	
 	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
 	if ( self:GetCenter() > UIParent:GetCenter() ) then -- compare X coordinate
 		tooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -286,10 +331,17 @@ function pluginHandler:OnEnter(mapFile, coord) -- Copied from handynotes
 		tooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 
-	if (nodes[mapFile][coord][3] ~= nil) then
-	 tooltip:AddLine(nodes[mapFile][coord][3])
-    else tooltip:AddLine(nodes[mapFile][coord][2])
+	if (nodeData[3] ~= nil) then
+	 tooltip:AddLine(nodeData[3], nil, nil, nil, true)
+     else tooltip:AddLine(nodes[mapFile][coord][2])
 	end
+	
+	--if (lockouts[nodeData[1]]) then
+	-- for i,v in pairs(lockouts[nodeData[1]]) do
+	-- local name, groupType, isHeroic, isChallengeMode, displayHeroic, displayMythic, toggleDifficultyID = GetDifficultyInfo(i)
+	--  tooltip:AddLine(name .. " - (" .. v[1] .. "/" .. v[2] .. ")")
+	-- end
+	--end
 	tooltip:Show()
 end
 
@@ -302,33 +354,85 @@ function pluginHandler:OnLeave(mapFile, coord)
 end
 
 do
- local scale, alpha
-	local function iter(t, prestate)
-	  if not t then return nil end
+ local scale, alpha = 1, 1
+ local function iter(t, prestate)
+ if not t then return nil end
 		
-	  local state, value = next(t, prestate)
-	  while state do
-	  local icon
-	  if (value[2] == "Dungeon") then
-	   icon = iconDungeon
-	  elseif (value[2] == "Raid") then
-	   icon = iconRaid 
-	  elseif (value[2] == "Merged") then
-	   icon = iconMerged
-	  else
-	   icon = iconDefault
-	  end
+ local state, value = next(t, prestate)
+ while state do
+  local icon
+  if (value[2] == "Dungeon") then
+   icon = iconDungeon
+  elseif (value[2] == "Raid") then
+   icon = iconRaid
+  elseif (value[2] == "Merged") then
+   icon = iconMerged
+  else
+   icon = iconDefault
+  end
 		
-	   return state, nil, icon, scale, alpha
-	  end
-      state, value = next(t, state)
-	 end
-	function pluginHandler:GetNodes(mapFile, isMinimapUpdate, dungeonLevel)
-		if (DEBUG) then print(mapFile) end
-		scale = isContinent and db.continentScale or db.zoneScale
-		alpha = isContinent and db.continentAlpha or db.zoneAlpha
-		return iter, nodes[mapFile]
+   return state, nil, icon, scale, alpha
+   --state, value = next(t, state)
+  end
+ end
+ function pluginHandler:GetNodes(mapFile, isMinimapUpdate, dungeonLevel)
+  if (DEBUG) then print(mapFile) end
+  local isContinent = continents[mapFile]
+  scale = isContinent and db.continentScale or db.zoneScale
+  alpha = isContinent and db.continentAlpha or db.zoneAlpha
+
+  if (isMinimapUpdate and minimap[mapFile]) then
+   return iter, minimap[mapFile]
+  end
+  if (isContinent and not db.continent) then
+   return iter
+  else
+   return iter, nodes[mapFile]
+  end
+ end
+end
+
+local waypoints = {}
+local function setWaypoint(mapFile, coord)
+	local dungeon = nodes[mapFile][coord]
+
+	local waypoint = nodes[dungeon]
+	if waypoint and TomTom:IsValidWaypoint(waypoint) then
+		return
 	end
+
+	local title = dungeon[1]
+	local zone = HandyNotes:GetMapFiletoMapID(mapFile)
+	local x, y = HandyNotes:getXY(coord)
+	waypoints[dungeon] = TomTom:AddMFWaypoint(zone, nil, x, y, {
+		title = dungeon[1],
+		persistent = nil,
+		minimap = true,
+		world = true
+	})
+end
+
+function pluginHandler:OnClick(button, pressed, mapFile, coord)
+ if (not pressed) then return end
+ if (button == "RightButton" and db.tomtom and TomTom) then
+  setWaypoint(mapFile, coord)
+  return
+ end
+ if (button == "LeftButton" and db.journal) then
+  if (not EncounterJournal_OpenJournal) then
+   UIParentLoadAddOn('Blizzard_EncounterJournal')
+  end
+  local dungeonID = nodes[mapFile][coord][1]
+  local name, _, _, _, _, _, _, link = EJ_GetInstanceInfo(dungeonID)
+  local difficulty = 1
+  nodeData = nodes[mapFile][coord] 
+  if (not dungeonID or not difficulty) then return end
+  if (nodeData[2] == "Raid") then EncounterJournal_OpenJournal(4, dungeonID)
+  else if (nodeData[2] == "Merged") then EncounterJournal_OpenJournal(2, dungeonID)
+  else EncounterJournal_OpenJournal(1, dungeonID)
+  end
+  end
+ end
 end
 
 local defaults = {
@@ -338,6 +442,9 @@ local defaults = {
   continentScale = 2,
   continentAlpha = 1,
   continent = true,
+  tomtom = true,
+  dungeon = false,
+  journal = true
  },
 }
 
@@ -349,7 +456,7 @@ local options = {
  set = function(info, v) db[info[#info]] = v HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "DungeonLocations") end,
  args = {
   desc = {
-   name = "These settings control the look and feel of the icon.",
+   name = "Continent icons are not working yet.",
    type = "description",
    order = 0,
   },
@@ -357,7 +464,7 @@ local options = {
    type = "range",
    name = "Zone Scale",
    desc = "The scale of the icons shown on the zone map",
-   min = 0.25, max = 12, step = 0.1,
+   min = 0.2, max = 12, step = 0.1,
    order = 10,
   },
   zoneAlpha = {
@@ -371,7 +478,7 @@ local options = {
    type = "range",
    name = "Continent Scale",
    desc = "The scale of the icons shown on the continent map",
-   min = 0.25, max = 12, step = 0.1,
+   min = 0.2, max = 12, step = 0.1,
    order = 10,
   },
   continentAlpha = {
@@ -385,6 +492,18 @@ local options = {
    type = "toggle",
    name = "Show on Continent",
    desc = "Show icons on continent map",
+   order = 1,
+  },
+  tomtom = {
+   type = "toggle",
+   name = "Enable TomTom integration",
+   desc = "Allow right click to create waypoints with TomTom",
+   order = 2,
+  },
+  journal = {
+   type = "toggle",
+   name = "Journal Integration",
+   desc = "Allow left click to open journal to dungeon or raid",
    order = 2,
   },
  },
@@ -400,48 +519,21 @@ function Addon:PLAYER_LOGIN()
  self.db = LibStub("AceDB-3.0"):New("HandyNotes_DungeonLocationsDB", defaults, true)
  db = self.db.profile
  
- --name, description, bgImage, buttonImage, loreImage, dungeonAreaMapID, link = EJ_GetInstanceInfo([instanceID])
- -- Populate Dungeon/Raid names based on Journal
- for i,v in pairs(nodes) do
-  for j,u in pairs(v) do
-   --[[if (type(u[1]) == "number") then
-    local name = EJ_GetInstanceInfo(u[1])
-    u[1] = name
-   end ]]--
-   --if (u[2] == "Merged") then
-   local n = 4 -- Start of merged dungeons/raids
-   local newName = EJ_GetInstanceInfo(u[1])
-   while(u[n]) do
-	if (type(u[n]) == "number") then
-	 local name = EJ_GetInstanceInfo(u[n])
-	 newName = newName .. "\n" .. u[n]
-	else
-	 newName = newName .. "\n" .. u[n]
-	end
-	u[n] = nil
-	n = n + 1
-   end
-   u[1] = newName
-  end
- end
- 
  local continents = { GetMapContinents() }
  local temp = { } -- I switched to the temp table because modifying the nodes table while iterating over it sometimes stopped it short for some reason
- for mapFile, coords in pairs(nodes) do
-  if not continents[mapFile] and not (internalNodes[mapFile]) then
-   if (DEBUG) then print(mapFile) end
-   
-   local continentMapFile = HandyNotes:GetMapIDtoMapFile(continentMapID)
-   mapToContinent[mapFile] = continentMapFile
-   for coord, criteria in next, coords do
-     if x and y then
-      temp[continentMapFile] = temp[continentMapFile] or {}
-      temp[continentMapFile][HandyNotes:getCoord(x, y)] = criteria
-	end
-   end
+ 
+ --self:UpdateLockouts()
+end
+
+-- Looked to see what events SavedInstances was using, seems far more involved than what I am willing to do
+--[[function Addon:UpdateLockouts()
+ table.wipe(lockouts)
+ 
+ for i=1,GetNumSavedInstances() do
+  local name, id, reset, difficulty, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, encounterProgress = GetSavedInstanceInfo(i)
+  if (locked) then
+   if (not lockouts[name]) then lockouts[name] = { } end
+   lockouts[name][difficulty] = { encounterProgress, numEncounters }
   end
  end
- for mapFile, coords in pairs(temp) do
-   nodes[mapFile] = coords
- end
-end
+end ]]--
