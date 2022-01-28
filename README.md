@@ -18,3 +18,5 @@ https://www.curseforge.com/wow/addons/handynotes_timelessisle_rareelit
 https://www.curseforge.com/wow/addons/timelessislechests
 
 https://www.curseforge.com/wow/addons/handynotes_guild
+
+https://www.curseforge.com/wow/addons/handy-notes-pandaria-treasures
