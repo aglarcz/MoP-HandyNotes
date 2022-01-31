@@ -212,6 +212,9 @@ nodes["Dragonblight"] = {
  [61305260] = { 761, "Raid", "The Ruby Sanctum" }, -- The Ruby Sanctum
  [60005690] = { 755, "Raid", "The Obsidian Sanctum" }, -- The Obsidian Sanctum
 }
+nodes["GrizzlyHills"] = {
+ [17002100] = { 273, "Dungeon", "Drak'Tharon Keep" },
+}
 nodes["HowlingFjord"] = {
  [58005000] = { 285, "Dungeon", "Utgarde Keep" }, -- Utgarde Keep
  [57204660] = { 286, "Dungeon", "Utgarde Pinnacle" }, -- Utgarde Pinnacle
