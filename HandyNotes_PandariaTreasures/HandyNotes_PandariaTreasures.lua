@@ -17,7 +17,16 @@ local iconDefaults = {
     skull_purple = "Interface\\Addons\\HandyNotes_PandariaTreasures\\Artwork\\RareIconPurple.tga",
     skull_red = "Interface\\Addons\\HandyNotes_PandariaTreasures\\Artwork\\RareIconRed.tga",
     skull_yellow = "Interface\\Addons\\HandyNotes_PandariaTreasures\\Artwork\\RareIconYellow.tga",
-	ritual_stone = "Interface\\Icons\\inv_qiraj_jewelglyphed",
+    ritual_stone = "Interface\\Icons\\inv_qiraj_jewelglyphed",
+    gorespine = "Interface\\Icons\\inv_pet_porcupine",
+    nitun = "Interface\\Icons\\inv_pet_raccoon",
+    kafi = "Interface\\Icons\\inv_misc_monsterhorn_03",
+    tiun = "Interface\\Icons\\inv_misc_fish_turtle_02",
+    xia = "Interface\\Icons\\inv_pet_waterstrider",
+    kawi = "Interface\\Icons\\inv_misc_food_vendor_boiledsilkwormpupa",
+    dosryga = "Interface\\Icons\\inv_misc_fish_103",
+    nono = "Interface\\Icons\\inv_pet_otter",
+    lucky = "Interface\\Icons\\inv_pet_cricket",
 }
 
 local PlayerFaction, _ = UnitFactionGroup("player")
@@ -268,7 +277,8 @@ nodes["KunLaiSummit"] = {
 }
 
 nodes["DreadWastes"] = {
-	[47206160] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_dw", "94229", "94230", "94231"}
+	[47206160] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_dw", "94229", "94230", "94231"},
+    [26205030] = { "68558", "Gorespine ", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "gorespine", "rare_dw", ""}
 }
 
 nodes["ValeofEternalBlossoms"] = {
@@ -381,12 +391,12 @@ function PandariaTreasures:OnEnter(mapFile, coord)
                 tooltip:AddLine(("Lootinfo: " .. nodes[mapFile][coord][3]), nil, nil, nil, true)
             end
         else
-            tooltip:AddLine(("Loot: " .. nodes[mapFile][coord][3]), nil, nil, nil, true)
+            tooltip:AddLine(("" .. nodes[mapFile][coord][3]), nil, nil, nil, true)
         end
     end
 	
 	if (nodes[mapFile][coord][4] ~= "") and (PandariaTreasures.db.profile.show_notes == true) then
-		tooltip:AddLine(("Notes: " .. nodes[mapFile][coord][4]), nil, nil, nil, true)
+		tooltip:AddLine(("" .. nodes[mapFile][coord][4]), nil, nil, nil, true)
 		if (nodes[mapFile][coord][2] == "Zandalari Warbringer") and (zul_again[2] > 0) then
 			tooltip:AddLine(("\nKill " .. zul_again[2] .. " to complete one of the criteria of the [Zul'Again] Achievement!"), nil, nil, nil, true)
 		end
@@ -761,6 +771,13 @@ local options = {
 					desc = "Achievement and toy data is only gathered at login, avoiding periodic achievement/toys checks. Reduces the possible performance hits created by this addon to the minimum.",
 					order = 115,
 				},
+				already_killed = {
+					type = "toggle",
+					arg = "already_killed",
+					name = "Show already killed (requires /rl)",
+					desc = "Shows already killed rares",
+					order = 116,
+				},
             },
         },
     },
@@ -774,18 +791,19 @@ function PandariaTreasures:OnInitialize()
             icon_alpha = 1.00,
             alwaysshowrares = false,
             alwaysshowtreasures = false,
-			alwaysshowbosses = false,
-			low_impact = false,
+            alwaysshowbosses = false,
+            low_impact = false,
+            already_killed = true,
             save = true,
-			rare_tjf = true,
-			rare_dw = true,
-			rare_kra = true,
-			rare_ts = true,
-			rare_fw = true,
-			rare_eb = true,
-			rare_ti = true,
-			rare_it = true,
-			rare_ks = true,
+            rare_tjf = true,
+            rare_dw = true,
+            rare_kra = true,
+            rare_ts = true,
+            rare_fw = true,
+            rare_eb = true,
+            rare_ti = true,
+            rare_it = true,
+            rare_ks = true,
             treasures_tjf = true,
 			treasures_kra = true,
 			treasures_fw = true,
@@ -930,7 +948,7 @@ function PandariaTreasures:AchievementCheck()
 		if (achievement_completed == false) then
 			for i=1,56 do
 				local desc, _, completed, _, _, _, _, assetID, _, _ = GetAchievementCriteriaInfo(7439, i)
-				if (completed == false) then
+				if (completed == false or self.db.profile.already_killed == true) then
 					local rare_data = rare_elites[assetID]
 					local zone = zones[rare_data[4]]
 					for j=1,#rare_data[1] do
@@ -1126,7 +1144,7 @@ function addtoTomTom(button, mapFile, coord)
         end
 
         if (nodes[mapFile][coord][4] ~= "") and (PandariaTreasures.db.profile.show_notes == true) then
-            desc = desc.."\nNotes: " .. nodes[mapFile][coord][4]
+            desc = desc.."\n" .. nodes[mapFile][coord][4]
         end
 
         TomTom:AddMFWaypoint(mapId, nil, x, y, {
@@ -1165,7 +1183,7 @@ function AddDBMArrow(button, mapFile, coord)
         end
 
         if (nodes[mapFile][coord][4] ~= "") and (PandariaTreasures.db.profile.show_notes == true) then
-            desc = desc.."\nNotes: " .. nodes[mapFile][coord][4]
+            desc = desc.."\n" .. nodes[mapFile][coord][4]
         end
 
         if not DBMArrow.Desc:IsShown() then
