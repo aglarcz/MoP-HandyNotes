@@ -162,7 +162,7 @@ rare_elites = {
 	[50836] = {{55406340, 55206380}, "", "default", "rare_dw", "970044"},
 	[50821] = {{34802320}, "", "default", "rare_dw", "970045"},
 	[50356] = {{73602360, 74002080, 73202040, 73002220}, "Drops item that increases experience gains by 300% for 1 hour. Does not work above level 84.", "default", "rare_dw", "970046"},
-	[50776] = {{64205860}, "Drops battle pet Aqua Strider", "default", "rare_dw", "970047"},
+	[50776] = {{64206060}, "Drops battle pet Aqua Strider", "default", "rare_dw", "970047"},
 	[50334] = {{25202860}, "", "skull_rare", "rare_dw", "970048"},
 	[50739] = {{39204180, 37802960, 35603080}, "", "default", "rare_dw", "970049"},
 	[50347] = {{71803760}, "", "skull_rare", "rare_dw", "970050"},
@@ -908,7 +908,7 @@ function PandariaTreasures:AchievementCheck()
 				local desc, _, completed, _, _, _, _, assetID, _, _ = GetAchievementCriteriaInfo(7932, i)
 				names[i] = desc
 				names[i+3] = desc
-				if (completed == false) then
+				if (completed == false or self.db.profile.already_killed == true) then
 					if (faction == 0) then
 						base[i] = 1
 					else
@@ -931,13 +931,13 @@ function PandariaTreasures:AchievementCheck()
 		if (achievement_completed == false) then
 			--zandalari warbringer already exists in nodes
 			local _, _, completed, quantity, req_quantity, _, _, _, _, _ = GetAchievementCriteriaInfo(8078, 2)
-			if (completed == false) then
+			if (completed == false or self.db.profile.already_killed == true) then
 				local mobs_left = req_quantity - quantity
 				zul_again[2] = mobs_left
 			end
 			--zandalari warscout
 			local _, _, completed, quantity, req_quantity, _, _, _, _, _ = GetAchievementCriteriaInfo(8078, 1)
-			if (completed == false) then
+			if (completed == false or self.db.profile.already_killed == true) then
 				local mobs_left = req_quantity - quantity
 				zul_again[1] = mobs_left
 			end
@@ -970,7 +970,7 @@ function PandariaTreasures:AchievementCheck()
 		if (achievement_completed == false) then
 			for i=1,31 do
 				local desc, _, completed, _, _, _, _, assetID, _, _ = GetAchievementCriteriaInfo(8714, i)
-				if (completed == false) then
+				if (completed == false or self.db.profile.already_killed == true) then
 					--for some reason the archerus of flame is set with assetID = 0
 					if (assetID == 0) then
 						assetID = 73174
@@ -996,7 +996,7 @@ function PandariaTreasures:AchievementCheck()
 		if (achievement_completed == false) then
 			for i=1,10 do
 				local desc, _, completed, _, _, _, _, assetID, _, _ = GetAchievementCriteriaInfo(8103, i)
-				if (completed == false) then
+				if (completed == false or self.db.profile.already_killed == true) then
 					local rare_data = rare_elites[assetID]
 					local zone = zones[rare_data[4]]
 					for j=1,#rare_data[1] do
@@ -1015,7 +1015,7 @@ function PandariaTreasures:AchievementCheck()
 		if (achievement_completed == false) then
 			for i=1,9 do
 				local desc, _, completed, _, _, _, _, assetID, _, _ = GetAchievementCriteriaInfo(8101, i)
-				if (completed == false) then
+				if (completed == false or self.db.profile.already_killed == true) then
 					--for some reason the spirit of warlord teng is set with wrong assetID = 139575
 					-- the electromancer also set with wrong assetID = 139576
 					-- the incomplete drakkari colossus also set with wrong assetID = 139577
