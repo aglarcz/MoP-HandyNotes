@@ -251,8 +251,8 @@ rare_elites = {
 nodes["TheJadeForest"] = {
 	--Mobs
 	[52601900] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_tjf", "94229", "94230", "94231"},
-    [57002920] = { "68565", Nitun", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "nitun", "rare_tjf", ""},
-    [48407100] = { "68555", Kawi the Gorger", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "kawi", "rare_tjf", ""},
+    [57002920] = { "68565", "Nitun", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "nitun", "rare_tjf", ""},
+    [48407100] = { "68555", "Ka'wi the Gorger", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "kawi", "rare_tjf", ""},
 	
 	--Map Treasures
 	[26203240] = { "31400", "Ancient Pandaren Tea Pot", "Grey item worth 100g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_tjf", ""},
@@ -268,7 +268,7 @@ nodes["KunLaiSummit"] = {
 	--Mobs
 	[75006760] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_ks", "94229", "94230", "94231"},
     [35205600] = { "68563", "Kafi", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "kafi", "rare_ks", ""},
-    [67908470] = { "68564", "DosRyga", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "dosryga", "rare_ks", ""},
+    [67908470] = { "68564", "Dos-Ryga", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "dosryga", "rare_ks", ""},
 	
 	--Map Treasures
 	[64204520] = { "31420", "Ancient Mogu Tablet", "Grey item worth 95g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_ks", ""},
@@ -287,7 +287,7 @@ nodes["DreadWastes"] = {
 }
 
 nodes["ValeofEternalBlossoms"] = {
-    [11007090] = { "68559", "NoNo", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "nono", "rare_eb", ""}
+    [11007090] = { "68559", "No-No", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "nono", "rare_eb", ""}
 }
 
 nodes["ValleyoftheFourWinds"] = {
@@ -295,7 +295,7 @@ nodes["ValleyoftheFourWinds"] = {
 	[23802850] = { "31405", "Virmen Treasure Cache", "Item with ~99g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_fw", ""},
 	[92003900] = { "31869", "Boat-Building Instructions", "Grey item worth 10g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_fw", ""},
     [40504370] = { "68561", "Lucky Yi", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "lucky", "rare_fw", ""},
-    [25307850] = { "68560", "Greyhoof", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "greyhoof ", "rare_fw", ""}
+    [25307850] = { "68560", "Greyhoof", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "greyhoof", "rare_fw", ""}
 }
 
 nodes["TimelessIsle"] = {
@@ -323,7 +323,7 @@ nodes["Krasarang"] = {
 nodes["TownlongWastes"] = {
 	--Mobs
 	[36608560] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_ts", "94229", "94230", "94231"},
-    [72307980] = { "68562", "Tiun the Wanderer", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "tiun", "rare_ts", ""},
+    [72307980] = { "68562", "Ti'un the Wanderer", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "tiun", "rare_ts", ""},
 	
 	--Map Treasures
 	[62803410] = { "31427", "Abandoned Crate of Goods", "Item with ~103g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_ts", ""},
