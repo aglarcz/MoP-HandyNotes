@@ -18,6 +18,7 @@ local iconDefaults = {
     skull_red = "Interface\\Addons\\HandyNotes_PandariaTreasures\\Artwork\\RareIconRed.tga",
     skull_yellow = "Interface\\Addons\\HandyNotes_PandariaTreasures\\Artwork\\RareIconYellow.tga",
     ritual_stone = "Interface\\Icons\\inv_qiraj_jewelglyphed",
+    greyhoof = "Interface\\Icons\\inv_mushanbeastmount",
     gorespine = "Interface\\Icons\\inv_pet_porcupine",
     nitun = "Interface\\Icons\\inv_pet_raccoon",
     kafi = "Interface\\Icons\\inv_misc_monsterhorn_03",
@@ -249,7 +250,9 @@ rare_elites = {
 
 nodes["TheJadeForest"] = {
 	--Mobs
-	[52601900] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_ks", "94229", "94230", "94231"},
+	[52601900] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_tjf", "94229", "94230", "94231"},
+    [57002920] = { "68565", Nitun", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "nitun", "rare_tjf", ""},
+    [48407100] = { "68555", Kawi the Gorger", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "kawi", "rare_tjf", ""},
 	
 	--Map Treasures
 	[26203240] = { "31400", "Ancient Pandaren Tea Pot", "Grey item worth 100g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_tjf", ""},
@@ -264,6 +267,8 @@ nodes["TheJadeForest"] = {
 nodes["KunLaiSummit"] = {
 	--Mobs
 	[75006760] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_ks", "94229", "94230", "94231"},
+    [35205600] = { "68563", "Kafi", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "kafi", "rare_ks", ""},
+    [67908470] = { "68564", "DosRyga", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "dosryga", "rare_ks", ""},
 	
 	--Map Treasures
 	[64204520] = { "31420", "Ancient Mogu Tablet", "Grey item worth 95g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_ks", ""},
@@ -278,16 +283,19 @@ nodes["KunLaiSummit"] = {
 
 nodes["DreadWastes"] = {
 	[47206160] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_dw", "94229", "94230", "94231"},
-    [26205030] = { "68558", "Gorespine ", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "gorespine", "rare_dw", ""}
+    [26205030] = { "68558", "Gorespine", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "gorespine", "rare_dw", ""}
 }
 
 nodes["ValeofEternalBlossoms"] = {
+    [11007090] = { "68559", "NoNo", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "nono", "rare_eb", ""}
 }
 
 nodes["ValleyoftheFourWinds"] = {
 	--Map Treasures
 	[23802850] = { "31405", "Virmen Treasure Cache", "Item with ~99g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_fw", ""},
-	[92003900] = { "31869", "Boat-Building Instructions", "Grey item worth 10g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_fw", ""}
+	[92003900] = { "31869", "Boat-Building Instructions", "Grey item worth 10g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_fw", ""},
+    [40504370] = { "68561", "Lucky Yi", "Elite Pet", "Critter - not cageable\nBeasts of Fable quest", "lucky", "rare_fw", ""},
+    [25307850] = { "68560", "Greyhoof", "Elite Pet", "Beast - not cageable\nBeasts of Fable quest", "greyhoof ", "rare_fw", ""}
 }
 
 nodes["TimelessIsle"] = {
@@ -305,6 +313,7 @@ nodes["TheHiddenPass"] = {
 nodes["Krasarang"] = {
 	--Mobs
 	[38806760] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_kra", "94229", "94230", "94231"},
+    [36203720] = { "68566", "Skitterer Xia", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "xia", "rare_kra", ""},
 	
 	--Map Treasures
 	[68600760] = { "31408", "Saurok Stone Tablet", "Grey item worth 100g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_kra", ""},
@@ -314,6 +323,7 @@ nodes["Krasarang"] = {
 nodes["TownlongWastes"] = {
 	--Mobs
 	[36608560] = { "970000", "Zandalari Warbringer", "Mounts.", "The color of the NPC mount will determine the dropped mount's color.", "default", "rare_ts", "94229", "94230", "94231"},
+    [72307980] = { "68562", "Tiun the Wanderer", "Elite Pet", "Aquatic - not cageable\nBeasts of Fable quest", "tiun", "rare_ts", ""},
 	
 	--Map Treasures
 	[62803410] = { "31427", "Abandoned Crate of Goods", "Item with ~103g.", "Counts toward the achievement [Riches of Pandaria]", "default", "treasures_ts", ""},
