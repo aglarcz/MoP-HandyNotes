@@ -1050,9 +1050,8 @@ function PandariaTreasures:AchievementCheck()
 			end
 		end
 		
-		for i=1,#pandaria_toys do
-			local obtained = PlayerHasToy(pandaria_toys[i][1]) 
-			if (obtained == false or self.db.profile.alwaysshowrares) then
+		for i=1,#pandaria_toys do 
+			if (self.db.profile.alwaysshowrares) then
 				local npc = pandaria_toys[i][2]
 				local rare_data = rare_elites[npc]
 				local zone = zones[rare_data[4]]

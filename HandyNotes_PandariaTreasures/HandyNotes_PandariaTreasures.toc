@@ -12,4 +12,7 @@
 embeds.xml
 #@end-no-lib-strip@
 
+# Compatibility scripts
+C_Timer.lua
+
 HandyNotes_PandariaTreasures.lua
